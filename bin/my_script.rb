@@ -152,11 +152,31 @@ def destroy_contact_share(id)
   puts RestClient.delete(url)
 end
 
+
+
+def create_comment(user_id, comment_params)
+  url = Addressable::URI.new(
+    scheme: 'http',
+    host: 'localhost',
+    port: 3000,
+    path: "/users/#{user_id}/comments"
+  ).to_s
+
+  RestClient.post(
+    url,
+    comment: comment_params
+  )
+rescue RestClient::UnprocessableEntity
+  puts "Incorrect params"
+end
+
 # create_contact(name: 'cats', email: 'ofthe@world.unite!', user_id: 2)
-show_contacts(2)
+# show_contacts(2)
 # show_contact(1)
 # update_contact(1, name: "Jamie", email: "imm@the.bestest")
 # destroy_contact(2)
 
 # create_contact_share(user_id: 1, contact_id: 2)
 # destroy_contact_share(3)
+
+create_comment(1, commentable_id: 1, commentable_type: 'contact', body: 'hooray!')
